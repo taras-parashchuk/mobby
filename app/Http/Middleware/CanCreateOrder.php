@@ -1,0 +1,27 @@
+<?php
+
+namespace App\Http\Middleware;
+
+use Closure;
+use Cart;
+
+class CanCreateOrder
+{
+    public function __construct()
+    {
+        Cart::session(auth()->user()->id ?? \Session::token());
+    }
+    /**
+     * Handle an incoming request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure  $next
+     * @return mixed
+     */
+    public function handle($request, Closure $next)
+    {
+        if(!Cart::getTotalQuantity()) return redirect(route('home'));
+
+        return $next($request);
+    }
+}

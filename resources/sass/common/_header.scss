@@ -1,0 +1,14 @@
+@mixin top-tool-link() {
+  cursor: pointer;
+  color: $blue;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  text-decoration: none;
+}
+
+.dropdownMenu{
+  &__link{
+    @include top-tool-link;
+  }
+}

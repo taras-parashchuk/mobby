@@ -1,0 +1,4 @@
+[2021-05-02 04:00:21] local.ERROR: Allowed memory size of 134217728 bytes exhausted (tried to allocate 33425632 bytes) {"exception":"[object] (Symfony\\Component\\Debug\\Exception\\FatalErrorException(code: 1): Allowed memory size of 134217728 bytes exhausted (tried to allocate 33425632 bytes) at /home/mobby/vendor/league/flysystem/src/Util/MimeType.php:208)
+[stacktrace]
+#0 {main}
+"} 

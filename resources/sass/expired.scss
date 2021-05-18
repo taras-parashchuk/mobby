@@ -1,0 +1,72 @@
+@import "reset";
+
+@font-face {
+  font-family: 'f_book';
+  src: url('../fonts/FuturaPTBook.otf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.expired{
+  color: #2884f6;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  min-height: 100vh;
+  padding: 100px 180px;
+  box-sizing: border-box;
+  font-family: 'f_book';
+  &__title{
+    font-size: 40px;
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  &__description{
+    font-size: 27px;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  &__bottomText{
+    margin-top: 20px;
+    font-size: 23px;
+    color: #9fc2e4;
+  }
+  &__bottomLink{
+    font-size: 23px;
+    color: #2884f6;
+  }
+  &__img{
+    max-width: 100%;
+    height: auto;
+    max-height: 50vh;
+  }
+}
+@media screen  and (max-width: 1300px){
+  .expired{
+    padding: 50px 180px;
+  }
+}
+
+@media screen  and (max-width: 1000px){
+  .expired{
+    padding: 50px 50px;
+  }
+}
+
+@media screen  and (max-width: 500px){
+  .expired{
+    padding: 20px 20px;
+    &__title{
+      font-size: 30px;
+    }
+    &__description{
+      margin-bottom: 10px;
+      font-size: 20px;
+    }
+    &__bottomText{
+      margin-top: 10px;
+    }
+  }
+}

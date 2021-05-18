@@ -1,0 +1,276 @@
+.btn {
+  display: flex;
+  text-decoration: none;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  text-align: center;
+  &--primary {
+    background-color: $blue;
+    color: #fff;
+    border-radius: 5px;
+    box-shadow: 0px 2px 0px 0px rgba(3, 9, 53, 0.004);
+    transition: background-color .3s;
+    &:hover:not(.btn--disabled) {
+      background-color: #003399;
+    }
+  }
+  &--red {
+    background-color: $red;
+    color: #fff;
+    transition: all .3s;
+    &:hover {
+      background-color: #cc0000;
+    }
+  }
+  &--checkoutHelp {
+    display: inline-flex;
+    border-radius: 5px;
+    border: 1px solid $blue;
+    height: 33px;
+    line-height: 33px;
+    box-sizing: border-box;
+    padding: 0 18px;
+    font-size: 12px;
+    color: $blue;
+  }
+  &--disabled {
+    background-color: $grey;
+    &:hover {
+      cursor: default;
+    }
+  }
+  &--login {
+    width: 100%;
+    justify-content: center;
+    height: 36px;
+    line-height: 36px;
+    box-sizing: border-box;
+    font-weight: bold;
+    margin: 9px 0;
+    font-size: 18px;
+    text-align: center;
+  }
+  &--second {
+    border-radius: 10px;
+    border: 1px solid $blue;
+    text-align: center;
+    font-size: 12px;
+    color: $blue;
+  }
+  &--textCenter {
+    justify-content: center
+  }
+}
+
+.select {
+  padding-left: 15px;
+  padding-right: 45px;
+  $select: &;
+  &-open {
+    z-index: 9999;
+    #{$select}-items {
+      display: block;
+    }
+  }
+  &-wrapper {
+    cursor: pointer;
+  }
+  &-hide-select {
+    display: none;
+  }
+  &-items {
+    margin-top: 5px;
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: -1;
+    min-width: 100%;
+    background-color: #fff;
+    border-radius: 10px;
+    border: 1px solid $grey;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+  &-input {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 1px !important;
+    height: 1px !important;
+    outline: none !important;
+    border: none !important;
+    *font: 0/0 a !important;
+    background: none !important;
+  }
+  &-contentDrop__menu {
+    margin-left: 25px;
+    color: #0aaaaa;
+    border-radius: 5px;
+    background-color: #ffffff;
+    border: 1px solid #e9e9eb;
+    height: 22px;
+    line-height: 22px;
+    text-decoration: none;
+    display: inline-block;
+    position: relative;
+    white-space: nowrap;
+    box-sizing: border-box;
+    &--primary {
+      color: $grey;
+      b.button {
+        color: $lightblue;
+      }
+    }
+  }
+  &-form__control {
+    max-width: 243px;
+    box-sizing: border-box;
+    border-radius: 10px;
+    background-color: white;
+    box-shadow: inset 0px 1px 4px 0px rgba(0, 0, 0, 0.11);
+    height: 33px;
+    line-height: 33px;
+    display: block;
+    width: 100%;
+    padding-left: 10px;
+    color: #0aaaaa;
+    outline: none;
+    border: none;
+    -webkit-appearance: none;
+    &--select {
+      text-decoration: none;
+      position: relative;
+      padding-right: 25px;
+    }
+  }
+  &-checkout__selectField {
+    max-width: 375px;
+    margin-left: 0;
+    .select {
+      padding-left: 0;
+      padding-right: 10px;
+      overflow-x: hidden;
+    }
+    .select-items li.contentDrop__link {
+      white-space: normal;
+      line-height: 1.4;
+    }
+  }
+  &-form__control--maxw {
+    max-width: 400px;
+  }
+  .label {
+    font-size: inherit;
+    border-radius: 0;
+    color: inherit;
+    padding: 0;
+    text-align: left;
+    min-width: unset;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .mCSB_inside > .mCSB_container {
+    margin-right: 20px;
+  }
+  b {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    &:after {
+      content: $sb-icon-down-arrow;
+      font-family: 'siteboom_icon';
+      font-size: 10px;
+
+    }
+  }
+}
+
+.dropdownMenu {
+  position: relative;
+  &--dropParent {
+    position: static;
+  }
+  &__link {
+    background: none;
+    box-shadow: none;
+    border: none;
+    outline: none;
+    width: 100%;
+    box-sizing: border-box;
+    &--tel {
+      font-size: 16px;
+      color: #000;
+      font-weight: bold;
+      font-family: 'Arial Bold', sans-serif;
+      text-decoration: none;
+      margin: 2px 0;
+      display: inline-flex;
+      &:active {
+        color: #000;
+      }
+      &:before {
+        content: '';
+        display: inline-block;
+        width: 18px;
+        height: 18px;
+        margin-right: 8px;
+        background: url(../image/phones.png) no-repeat 2px -62px;
+      }
+    }
+    &--Olifecell:before {
+      background-position-y: -41px;
+    }
+    &--Okyivstar:before {
+      background-position: 3px 3px;
+    }
+    &--Omtc:before {
+      background-position-y: -17px;
+    }
+    &--register {
+      padding-right: 0;
+    }
+  }
+  & > &__link::after {
+    content: $sb-icon-down-arrow;
+    display: inline-block;
+    font-family: 'siteboom_icon';
+    margin-left: 5px;
+    font-size: 12px;
+  }
+  &__drop {
+    background-color: #fff;
+    display: none;
+    position: absolute;
+    left: 0;
+    top: 100%;
+    width: 100%;
+    box-shadow: 0px 0px 8px 0px rgba(19, 29, 95, 0.09);
+    z-index: 3;
+    cursor: default;
+    box-sizing: border-box;
+    margin-top: 2px;
+    &--under {
+      padding: 16px 10px 32px;
+      margin-left: -10px;
+      box-sizing: content-box;
+      margin-top: 12px;
+    }
+    &--login {
+      width: 370px;
+      right: 0;
+      left: auto;
+      padding: 0;
+    }
+    &--show {
+      display: block;
+    }
+  }
+}

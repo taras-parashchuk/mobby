@@ -1,0 +1,1 @@
+{{trans('mail.headers.new_testimonial')}}

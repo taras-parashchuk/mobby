@@ -1,0 +1,251 @@
+<?php
+
+
+namespace App\Services\Supplier;
+
+
+use App\Helpers\HelperFunction;
+use App\Models\SupplierProduct;
+use App\Services\Currency;
+use GuzzleHttp\Client;
+
+class SupplierElko extends SupplierBase implements SupplierInterface
+{
+
+    private $original_categories_uuid = [];
+
+    public function __construct()
+    {
+        self::$login = config('suppliers.elko.login');
+
+        self::$password = config('suppliers.elko.password');;
+
+        parent::__construct('Elko');
+    }
+
+    public function sync()
+    {
+        switch ($this->getSettings()->iteration_type) {
+            case 'Products':
+
+                $this->downloadAndSaveProducts();
+
+                $this->changeIterationType(null);
+
+                $this->removeSettings();
+
+                break;
+            case 'Categories':
+            default:
+                $this->downloadCategories()->saveCategories()->changeIterationType('Products');
+
+                self::sync();
+
+                break;
+
+        }
+    }
+
+    public function downloadCategories(): self
+    {
+
+        try {
+
+            $response = (new Client())->get('https://kiev.elkogroup.com/xml/Service.asmx/CategoryList', [
+                'query' => [
+                    'Username' => self::$login,
+                    'Password' => self::$password,
+                ]
+            ])->getBody();
+
+            $response_xml = simplexml_load_string($response);
+
+            if ((string)$response_xml->Success === 'True') {
+
+                foreach ($response_xml->xpath('XML/categories/category') as $category) {
+
+                    $this->categories[] = [
+                        'supplier_code' => $this->getSupplierCode(),
+                        'supplier_uuid' => trim((string)$category->code),
+                        'name' => (string)$category->name
+                    ];
+
+                }
+
+            } else {
+                throw  new \Exception((string)$response_xml->Message);
+            }
+
+
+        } catch (\Exception $exception) {
+            \Log::error('Can\'t get categories from elko supplier. ' . $exception->getMessage());
+
+            throw \Illuminate\Validation\ValidationException::withMessages([
+                [$exception->getMessage()],
+            ]);
+
+        }
+
+
+        return $this;
+    }
+
+    public function downloadAndSaveProducts()
+    {
+        try {
+
+            $this->original_categories_uuid = array_column($this->getOriginalCategories(), 'supplier_uuid');
+
+            $categories = $this->getOriginalCategories();
+
+            ini_set('max_execution_time', 30);
+
+            foreach ($categories as $key => $category) {
+
+                if (!is_null($this->getSettings()->category_id_in_iteration) && $category['supplier_uuid'] !== $this->getSettings()->category_id_in_iteration) continue;
+
+                $this->changeCategoryIdIteration((string)$category['supplier_uuid']);
+
+                $this->downloadProducts($category['supplier_uuid'])->saveProducts();
+
+                $this->clearProductsBuffer();
+
+                if (isset($categories[$key + 1])) $this->changeCategoryIdIteration($categories[$key + 1]['supplier_uuid']);
+
+            }
+
+        } catch (\Exception $exception) {
+
+            \Log::error('Can\'t get products from elko supplier. ' . $exception->getMessage());
+
+            throw \Illuminate\Validation\ValidationException::withMessages([
+                [$exception->getMessage()],
+            ]);
+
+        }
+    }
+
+    public function downloadProducts(string $supplier_category_uuid, ?int $offset = 0): self
+    {
+        try {
+
+            $response = (new Client())->get("https://kiev.elkogroup.com/xml/Service.asmx/ProductList", [
+                'query' => [
+                    'Username' => self::$login,
+                    'Password' => self::$password,
+                    'CategoryCode' => $supplier_category_uuid,
+                    'VendorCode' => '',
+                    'ELKOcode' => ''
+                ]
+            ])->getBody();
+
+            $response_xml = simplexml_load_string($response);
+
+            if ((string)$response_xml->Success === 'True') {
+
+                foreach ($response_xml->xpath('XML/stock/product') as $product) {
+
+                    if (!in_array((string)$product->categoryCode, $this->original_categories_uuid)) continue;
+
+                    $this->products[] = [
+                        'supplier_uuid' => (string)$product->ELKOcode,
+                        'supplier_code' => (string)$this->getSupplierCode(),
+                        'category_id' => trim((string)$product->categoryCode),
+                        'sku' => (string)$product->searchText,
+                        'name' => ((string)$product->UAproductName ?: (string)$product->productName),
+                        'price' => currency((string)($product->discountPrice ?: $product->price), (string)$product->currency, 'UAH', false),
+                        'rrc_price' => currency((string)$product->rrp, (string)$product->currency, 'UAH', false),
+                        'quantity' => preg_replace("/[^0-9]/", '', (string)$product->stockQuantity),
+                        'description' => ''
+                    ];
+                }
+
+            } else {
+                throw  new \Exception((string)$response_xml->Message);
+            }
+
+        } catch (\Exception $exception) {
+
+            \Log::error('Can\'t get products from elko supplier. ' . $exception->getMessage());
+
+            throw \Illuminate\Validation\ValidationException::withMessages([
+                [$exception->getMessage()],
+            ]);
+
+        }
+
+        return $this;
+    }
+
+    public function downloadProduct(SupplierProduct $supplier_product): array
+    {
+        self::$login = config('suppliers.elko.login');
+
+        self::$password = config('suppliers.elko.password');
+
+        $info = [
+            'attributes' => [],
+            'images' => null,
+            'description' => '',
+            'vendor' => null
+        ];
+
+        try {
+
+            $response = (new Client())->get("https://kiev.elkogroup.com/xml/Service.asmx/ProductDescription", [
+                'query' => [
+                    'Username' => self::$login,
+                    'Password' => self::$password,
+                    'ELKOcode' => $supplier_product->supplier_uuid
+                ]
+            ])->getBody();
+
+            $response_xml = simplexml_load_string($response);
+
+            $disallowed_attributes = self::getDisAllowedAttributes($supplier_product);
+
+            if ((string)$response_xml->Success === 'True') {
+
+                foreach ($response_xml->xpath('XML/product/property') as $property) {
+
+                    $criteria = (string)$property->criteria;
+
+                    if ($criteria === 'Image') {
+                        $info['images'][] = (string)$property->value;
+                    } elseif (!array_key_exists($criteria, $disallowed_attributes)) {
+
+                        $attribute = HelperFunction::getAttributeOrCreate($criteria);
+                        $attribute_value = HelperFunction::getAttributeValueOrCreate($attribute, (string)$property->value);
+
+                        if(isset($info['attributes'][$attribute->id])){
+                            $info['attributes'][$attribute->id]['values'][] = $attribute_value;
+                        }else{
+                            $info['attributes'][$attribute->id] = [
+                                'attribute' => $attribute,
+                                'values' => [$attribute_value]
+                            ];
+                        }
+
+                    }
+
+                }
+
+            } else {
+                throw  new \Exception((string)$response_xml->Message);
+            }
+
+
+        } catch (\Exception $exception) {
+            \Log::error("Can\'t get product from elko supplier. UUID = $supplier_product->supplier_uuid. " . $exception->getMessage() . $exception->getTraceAsString());
+
+            throw \Illuminate\Validation\ValidationException::withMessages([
+                [$exception->getMessage()],
+            ]);
+
+        }
+
+
+        return $info;
+
+    }
+}

@@ -1,0 +1,147 @@
+input, button {
+  &:focus {
+    outline: none;
+  }
+}
+
+body {
+  font-family: Arial, 'sans-serif';
+  font-weight: 300;
+  color: #000;
+  font-size: 14px;
+  &.no-scroll {
+    height: 100vh;
+    overflow: hidden;
+  }
+}
+
+.container {
+  max-width: 1170px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  &--between {
+    justify-content: space-between;
+  }
+}
+
+.contentCol {
+  -webkit-box-flex: 0;
+  -webkit-flex: 0 0 100%;
+  -ms-flex: 0 0 100%;
+  flex: 0 0 100%;
+  max-width: 100%;
+}
+
+.l-flex {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.l-flex-100-pr {
+  flex: 100%;
+}
+
+.l-flex-wrap-unset {
+  flex-wrap: unset;
+}
+
+.l-w80 {
+  width: 80%;
+}
+
+.l-w75 {
+  width: 75%;
+}
+
+.l-w70 {
+  width: 70%;
+}
+
+.l-w25 {
+  width: 25%;
+}
+
+.l-flex-right {
+  justify-content: flex-end;
+}
+
+.l-flex-top {
+  align-items: flex-start;
+}
+
+.l-flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.l-flex-order {
+  display: flex;
+  order: 1;
+}
+
+#content {
+  align-self: flex-start;
+  min-height: 330px
+}
+
+.l-d-none {
+  display: none;
+}
+
+@import "control";
+
+.text {
+  &--lightblue {
+    color: $lightblue;
+  }
+}
+
+.empty {
+  display: flex;
+  flex-wrap: wrap;
+  flex: 100%;
+  align-self: flex-start;
+  &__btns {
+    display: block;
+    width: 100%;
+    &--right {
+      text-align: right;
+      justify-content: flex-end;
+    }
+    margin-top: 25px;
+  }
+  &__btn {
+    display: inline-flex;
+    height: 33px;
+    line-height: 33px;
+    width: 200px;
+    justify-content: center;
+    font-weight: bold;
+    font-family: 'Arial Bold', sans-serif;
+  }
+}
+
+.img-responsive {
+  max-width: 100%;
+  height: auto;
+}
+
+.text-link {
+  color: $blue;
+  display: inline-block;
+  text-decoration: none;
+  &:after {
+    content: '';
+    display: block;
+    height: 1px;
+    width: 100%;
+    background-color: $blue;
+    margin-top: 2px;
+  }
+}

@@ -1,0 +1,4 @@
+[2021-05-15 04:00:05] local.ERROR: Allowed memory size of 134217728 bytes exhausted (tried to allocate 20480 bytes) {"exception":"[object] (Symfony\\Component\\Debug\\Exception\\FatalErrorException(code: 1): Allowed memory size of 134217728 bytes exhausted (tried to allocate 20480 bytes) at /home/mobby/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php:416)
+[stacktrace]
+#0 {main}
+"} 

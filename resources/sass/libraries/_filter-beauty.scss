@@ -1,0 +1,239 @@
+.filter-option .fields-price, .filter-option .option-description, .filter-option .option-name, .filter-option .option-values {
+  font-size: 12px
+}
+
+.filter-option .option-name {
+  font-size: 23px;
+  font-weight: 700;
+  margin-bottom: 5px;
+  color: #414143
+}
+
+.filter-option .option-values {
+  overflow: visible
+}
+
+.list-group-item {
+  overflow: visible !important
+}
+
+.filter-option .option-values .dropdown-menu {
+  width: 100%
+}
+
+.filter-option .option-values .dropdown-menu > li {
+  padding: 10px
+}
+
+.filter-option .color {
+  border-radius: 3px 3px 3px 3px;
+  float: left;
+  height: 19px;
+  margin: 1px -16px 0 -3px;
+  width: 19px
+}
+
+.filter-option .image {
+  background-repeat: no-repeat;
+  background-position: 0 0;
+  float: left;
+  height: 19px;
+  margin: 1px -16px 0 -3px;
+  position: relative;
+  width: 19px;
+  z-index: 10
+}
+
+.filter-option label {
+  margin-bottom: 0;
+  cursor: pointer;
+  display: block;
+  font-size: 15px;
+  line-height: 1.2;
+  padding: 4px 0;
+  text-transform: uppercase
+}
+
+.filter-option label input {
+  display: inline-block;
+  margin: 0 5px 0 0;
+  vertical-align: top
+}
+
+.filter-option label.disabled {
+  color: #999
+}
+
+.filter-option label a {
+  text-decoration: none
+}
+
+.filter-option label.selected small {
+  display: none
+}
+
+.selected-options {
+  color: #4f4f4f;
+  padding: 0
+}
+
+.selected-options .filter-option {
+  font-size: 14px;
+  padding: 0
+}
+
+#filter-price .option-values {
+  padding: 10px 10px 5px
+}
+
+.filter .popover .form-inline .form-control {
+  width: 100px
+}
+
+.filter-content-bottom .box-content, .filter-content-top .box-content {
+  font-size: 0
+}
+
+.filter-content-bottom .filter-option, .filter-content-top .filter-option {
+  display: inline-block;
+  vertical-align: top;
+  width: 33%
+}
+
+.filter-content-bottom .filter-option + .filter-option, .filter-content-top .filter-option + .filter-option {
+  border-top: none
+}
+
+.list-group-custom {
+  padding: 10px;
+  background-color: #fff;
+  margin-bottom: 3px;
+  border: 1px solid #e5e5e5
+}
+
+.list-group-custom.selected-options {
+  margin-bottom: 15px
+}
+
+.badge {
+  font-size: inherit;
+  padding: 0;
+  color: #3d3d3d;
+  font-weight: 400
+}
+
+.option-values input[type=checkbox] {
+  display: none
+}
+
+.option-values input[type=checkbox] + a {
+  display: inline-block
+}
+
+.option-values input[type=checkbox] + a:before {
+  content: '\e90a';
+  font-family: icomoon;
+  margin-right: 8px
+}
+
+.option-values input[type=checkbox]:checked + a:before {
+  content: '\e909';
+  font-family: icomoon
+}
+
+#filter {
+  color: #000
+}
+
+.filter-head {
+  position: relative;
+  padding: 10px 0
+}
+
+.filter-head .headerCategory {
+  padding-top: 0;
+  color: #414143
+}
+
+.filter-head button {
+  position: absolute;
+  top: 0;
+  right: 0
+}
+
+.filterButtons {
+  margin-top: 10px;
+  text-align: center
+}
+
+.filterButtons > div {
+  display: inline-block
+}
+
+#ocTopForm {
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  justify-content: space-between;
+  margin: 15px 0 20px
+}
+
+.ocTopForm__input {
+  display: inline-flex;
+  align-items: center
+}
+
+.hidden_price {
+  display: none
+}
+
+#filter-button {
+  display: none
+}
+
+.btn_option_drop {
+  display: block;
+  padding: 6px 8px;
+  border: none;
+  background: 0 0;
+  color: #4f4f4f;
+  white-space: nowrap;
+  background-color: #f3f2f1;
+  margin: 4px 0
+}
+
+.btn_option_drop i {
+  color: #f0472c;
+  font-size: 12px;
+  margin-left: 3px
+}
+
+.btn_option_drop .dr_cancel:before {
+  content: "\e908";
+  font-family: icomoon
+}
+
+.selected-options .filter-option > span {
+  color: #929292;
+  display: block;
+  padding: 5px 0
+}
+
+#filter-content {
+  margin-bottom: 20px
+}
+
+.str_hidden {
+  display: none !important
+}
+
+$themeColor: #000;
+$dotBgColor: #fff;
+$dotShadow: 0px 0px 12.35px 0.65px rgba(248, 26, 32, 0.21);
+
+.filter .vue-slider-dot{
+  z-index: 1;
+}
+
+@import '~vue-slider-component/lib/theme/default.scss';

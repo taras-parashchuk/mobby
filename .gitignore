@@ -1,0 +1,14 @@
+/node_modules
+/storage/*.key
+/vendor
+/pymobby
+.env
+.phpunit.result.cache
+npm-debug.log
+yarn-error.log
+.idea
+.phpstorm.meta.php
+composer.lock
+package-lock.json
+public/uploads
+public/cache
